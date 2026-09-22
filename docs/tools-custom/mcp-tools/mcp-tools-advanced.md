@@ -287,6 +287,11 @@ finally:
 
 ## Render interactive UI widgets
 
+!!! example "Experimental"
+    
+    MCP UI widget rendering is experimental. The `meta.ui.resourceUri`
+    contract and the client rendering behavior may change.
+
 Standard MCP tools return plain text or JSON output. This feature enables MCP tools to return rich, interactive visual widgets, such as maps, charts, or forms, directly inside the chat interface.
 
 ```mermaid
