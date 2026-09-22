@@ -1,12 +1,17 @@
 # Deploy Agents with MCP Tools
 
+<div class="language-support-tag">
+  <span class="lst-supported">Supported in ADK</span><span class="lst-python">Python v0.1.0</span>
+</div>
+
 When deploying ADK agents that use MCP tools to production environments like Cloud Run, GKE, or Agent Runtime, you need to consider how MCP connections will work in containerized and distributed environments.
 
 ## Critical Deployment Requirement: Synchronous Agent Definition
 
-!!! warning
-
-    When deploying agents with MCP tools, the agent and its McpToolset must be defined **synchronously** in your `agent.py` file. While `adk web` allows for asynchronous agent creation, deployment environments require synchronous instantiation.
+When moving your MCP agents from local testing to production, such as Agent Runtime
+or Cloud Run, you must set them up carefully. Make sure to define both the
+agent and its `McpToolset` synchronously inside your `agent.py` file. This setting
+ensures they work correctly when deployed.
 
 ```python
 # CORRECT: Synchronous agent definition for deployment
@@ -42,14 +47,14 @@ root_agent = LlmAgent(
 )
 ```
 
-```python
-# WRONG: Asynchronous patterns don't work in deployment
-async def get_agent():  # This won't work for deployment
-    toolset = await create_mcp_toolset_async()
-    return LlmAgent(tools=[toolset])
-```
+!!! warning
 
-## Quick Deployment Commands
+    When deploying agents with MCP tools, the agent and its McpToolset must be defined **synchronously** in your `agent.py` file. While `adk web` allows for asynchronous agent creation, deployment environments require synchronous instantiation.
+
+## Quick deployment commands
+
+Once your agent is configured for production, you can use the ADK CLI to
+automate your deployment to Google Cloud. Before running these commands, ensure you have authenticated your Google Cloud CLI and replace the placeholder values (like `<your-gcp-project-id>`) with your actual project details.
 
 ### Agent Runtime
 ```bash
@@ -69,9 +74,7 @@ uv run adk deploy cloud_run \
   ./path/to/your/agent_directory
 ```
 
-## Deployment Patterns
-
-### Pattern 1: Self-Contained Stdio MCP Servers
+## Deployment Pattern 1: Self-Contained Stdio MCP servers
 
 For MCP servers that can be packaged as npm packages or Python modules (like `@modelcontextprotocol/server-filesystem`), you can include them directly in your agent container:
 
@@ -107,7 +110,7 @@ McpToolset(
 )
 ```
 
-### Pattern 2: Remote MCP Servers (Streamable HTTP)
+## Deployment Pattern 2: Remote MCP Servers (Streamable HTTP)
 
 For production deployments requiring scalability, deploy MCP servers as separate services and connect via Streamable HTTP:
 
@@ -260,7 +263,7 @@ if __name__ == "__main__":
         ).toToolset(headerProvider = { mapOf("Authorization" to "Bearer ${fetchToken()}") })
     ```
 
-### Pattern 3: Sidecar MCP Servers (GKE)
+## Deployment Pattern 3: Sidecar MCP Servers (GKE)
 
 In Kubernetes environments, you can deploy MCP servers as sidecar containers:
 
@@ -331,4 +334,3 @@ Follow these core guidelines when deploying agents with MCP tools to production 
 *   Log all MCP connection establishment and teardown events.
 *   Monitor MCP tool execution times and overall success rates.
 *   Set up automated alerts for recurring MCP connection failures.
-
