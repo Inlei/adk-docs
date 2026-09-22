@@ -12,7 +12,13 @@ There are two primary ways to achieve this:
   the agent's reasoning loop.
 
 ## Get started
-The most powerful approach is to expose an entire `LlmAgent`. By using the 
+
+!!! example "Experimental"
+    
+    `to_mcp_server()` is experimental. Its API may change, and ADK emits an
+    experimental warning at runtime when you use it.
+
+The most complete approach is to expose an entire `LlmAgent`. By using the
 `to_mcp_server()` utility, you can convert your agent into a standard FastMCP 
 server. This allows external clients to interact with the agent's full cognitive 
 capabilities and its internal toolkit.
