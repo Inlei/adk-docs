@@ -1,5 +1,7 @@
 # Configure ADK agents as MCP servers
 
+<span class="lst-preview">Experimental</span>
+
 You can make your ADK agent's capabilities accessible to external MCP clients, such as 
 Antigravity, Claude Code, or custom agents, by hosting your ADK agent's capabilities within an MCP server.
 There are two primary ways to achieve this:
