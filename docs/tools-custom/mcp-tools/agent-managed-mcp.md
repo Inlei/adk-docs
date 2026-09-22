@@ -56,9 +56,10 @@ When assigning an `McpToolset` to a specialized sub-agent, you can restrict the
 exact tools made available to that agent using the `tool_filter` parameter:
 * **Cognitive Focus:** Exposes only the specific actions relevant to the sub-agent's 
   mandate, such as, 'read_file', 'list_directory'.
-* **Security and sandboxing:** Prevents unintended access to dangerous tools 
-  exposed by the MCP server, isolating the execution surface from unpredictable 
-  inputs.
+* **Reduced attack surface:** Limits which server-side tools the model can call
+  at all, so an overly permissive MCP server cannot expose destructive
+  operations to this sub-agent. This is not a sandbox: the MCP server still
+  runs with its own privileges, and its output is still untrusted input.
 
 ## Connection Transport Modes
 The sub-agent's `McpToolset` must be configured with one of two primary 
