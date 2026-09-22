@@ -323,7 +323,7 @@ Follow these core guidelines when deploying agents with MCP tools to production 
     *   Use strict authentication headers for all remote MCP connections.
     *   Restrict network access tightly between ADK agents and MCP servers.
     *   Filter MCP tools using `tool_filter` to strictly limit exposed functionality.
-    *   Validate all MCP tool inputs to prevent prompt or command injection attacks.
+    *   Validate MCP tool inputs and treat all MCP tool output as untrusted content; input validation reduces, but does not eliminate, command- and prompt-injection risk.
     *   Use restrictive, absolute file paths for filesystem MCP servers (for example, `os.path.dirname(os.path.abspath(__file__))`).
     *   Apply read-only tool filters in production environments whenever possible.
 
